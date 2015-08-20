@@ -1,9 +1,8 @@
 ---
 - name: Hello World!
   hosts: all
-  user: root
  
   tasks:
  
   - name: Hello World!
-    shell: echo "Hi!  AWX is working"
+    shell: echo "Hi! Tower is working."
