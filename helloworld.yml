@@ -6,3 +6,8 @@
  
   - name: Hello World!
     shell: echo "Hi! Tower is working."
+    register: result
+    
+  - name: Print Result
+    debug: msg="{{ result.stdout }}"
+   
