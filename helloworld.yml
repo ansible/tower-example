@@ -1,6 +1,6 @@
 ---
-- name: Hello World!
-  hosts: all
+- name: test!
+  hosts: localhost
  
   tasks:
  
