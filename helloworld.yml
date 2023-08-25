@@ -1,8 +1,8 @@
 ---
 - name: test!
-  hosts: localhost
- 
+  hosts: vthunder
+  connection: local
   tasks:
- 
-  - name: Hello World!
-    shell: echo "Hi! Tower is working."
+  - name: Create a10.acos_axapi.a10_router_bgp instance
+    a10.acos_axapi.a10_router_bgp:
+      as_number: 107
