@@ -3,7 +3,7 @@
   hosts: localhost
   tasks:
     - name: List contents of remote directory
-      shell: whoami
+      shell: ls -lart /var/lib/awx
       register: directory_contents
 
     - name: Display directory contents
