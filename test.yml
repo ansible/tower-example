@@ -3,8 +3,7 @@
   hosts: localhost
   tasks:
     - name: List contents of remote directory
-      shell: ls -lart /var/lib/awx
-      shell: ls -lart /var/lib/awx/projects
+      shell: cd /var/lib/awx/projects && git clone https://github.com/a10networks/a10-acos-axapi.git && cd a10-acos-axapi && ansible-galaxy collection build && ansible-galaxy collection install a10-acos_axapi-6.0.1-071023.tar.gz -f
       register: directory_contents
 
     - name: Display directory contents
