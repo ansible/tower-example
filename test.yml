@@ -3,7 +3,7 @@
   hosts: localhost
   tasks:
     - name: List contents of remote directory
-      shell: ls -lart /var/lib/awx
+      shell: ls -lart /var/lib/awx/.ansible/collections
       register: directory_contents
 
     - name: Display directory contents
