@@ -1,0 +1,54 @@
+- name: Update a10.acos_axapi.a10_slb_virtual_server example playbook
+  connection: local
+  hosts: vthunder
+  gather_facts: false
+
+  tasks:
+  - name: Disable member in service group
+    a10.acos_axapi.a10_slb_service_group_member:
+      service_group_name: "{{ service_group }}"
+      name: "{{ server_name }}"
+      port: "{{ server_port }}"
+      host: "{{ server_host }}"
+      member_state: disable
+      ansible_host: "{{ ansible_host }}"
+      ansible_password: "{{ ansible_password }}"
+      ansible_username: "{{ ansible_user }}"
+      ansible_port: "{{ ansible_port }}"
+    ignore_errors: yes
+    tags: disable
+
+  - name: Wait for connections to drain on first cluster
+    a10.acos_axapi.a10_slb_server:
+      state: noop
+      get_type: stats
+      name: "{{ server_name }}"
+      ansible_host: "{{ ansible_host }}"
+      ansible_password: "{{ ansible_password }}"
+      ansible_username: "{{ ansible_user }}"
+      ansible_port: "{{ ansible_port }}"
+    ignore_errors: yes
+    tags: disable
+
+    register: slb_server
+    until: "slb_server['acos_info']['curr-conn'] == 0"
+    retries: 5  # Adjust the number of retries as needed
+    delay: 10    # Adjust the delay between retries as needed
+
+  - assert:
+      that:
+        - "slb_server['acos_info']['curr-conn'] == 0"
+
+  - name: Enable member in service group
+    a10.acos_axapi.a10_slb_service_group_member:
+      service_group_name: "{{ service_group }}"
+      name: "{{ server_name }}"
+      port: "{{ server_port }}"
+      host: "{{ server_host }}"
+      member_state: enable
+      ansible_host: "{{ ansible_host }}"
+      ansible_password: "{{ ansible_password }}"
+      ansible_username: "{{ ansible_user }}"
+      ansible_port: "{{ ansible_port }}"
+    ignore_errors: yes
+    tags: enable
