@@ -1,8 +1,11 @@
----
-- name: Hello World!
-  hosts: all
- 
+- hosts: vthunder
+  connection: local
   tasks:
- 
-  - name: Hello World!
-    shell: echo "Hi! Tower is working."
+  - name: Create a10.acos_axapi.a10_router_bgp instance
+    a10.acos_axapi.a10_router_bgp:
+      ansible_host: "{{ ansible_host }}"
+      ansible_password: "{{ ansible_password }}"
+      ansible_username: "{{ ansible_user }}"
+      ansible_port: "{{ ansible_port }}"
+      as_number: 107
+
